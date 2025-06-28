@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"https://projectfrontendemp.netlify.app/"})
+@CrossOrigin(origins = {"https://projectfrontendemp.netlify.app"})
 @RequestMapping("/employees")
 public class empController {
 
