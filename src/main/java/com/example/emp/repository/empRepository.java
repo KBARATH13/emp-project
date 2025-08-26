@@ -11,4 +11,8 @@ public interface empRepository extends JpaRepository<Employee, Integer> {
     List<Employee> findByRoleIgnoreCaseAndGenderIgnoreCase(String role, String gender);
     List<Employee> findByRoleIgnoreCase(String role);
     List<Employee> findByGenderIgnoreCase(String gender);
+    List<Employee> findByCompanyName(String companyName);
+    List<Employee> findByCompanyNameAndRoleIgnoreCaseAndGenderIgnoreCase(String companyName, String role, String gender);
+    List<Employee> findByCompanyNameAndRoleIgnoreCase(String companyName, String role);
+    List<Employee> findByCompanyNameAndGenderIgnoreCase(String companyName, String gender);
 }
