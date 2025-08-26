@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="css/index.css">
+  <meta charset="UTF-8">
+  <title>Employee Management</title>
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="bubbles">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+
+  <!-- Landing Page for Unauthenticated Users -->
+  <div class="container" id="landing-container" style="display: none;">
+    <h1>Welcome to the Employee Management System</h1>
+    <div class="greet">Your one-stop solution for managing employee data.</div>
+    <div class="question">Please login or register to continue.</div>
+    <div class="btn-group">
+      <button class="main-btn" onclick="goToLogin()">Login</button>
+      <button class="main-btn" onclick="goToRegister()">Register</button>
+    </div>
+  </div>
+
+  <!-- Home Page for Authenticated Users -->
+  <div class="container" id="home-container" style="display: none;">
+    <h1>Hello Boss!</h1>
+    <div class="greet">Welcome back to your Employee Management Portal.</div>
+    <div class="question">Wanna checkout the employee details or add new employees to the list?</div>
+    <div class="btn-group">
+      <button class="main-btn" onclick="goToAdd()">Add Employee</button>
+      <button class="main-btn" onclick="goToView()">View Employees</button>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const token = localStorage.getItem('token');
+      if (token) {
+        document.getElementById('home-container').style.display = 'block';
+        document.querySelector('.logout-btn').style.display = 'block';
+      } else {
+        document.getElementById('landing-container').style.display = 'block';
+        document.querySelector('.logout-btn').style.display = 'none';
+      }
+    });
+
+    function goToAdd(){
+      window.location.href="add.html";
+    }
+    function goToView(){
+      window.location.href="view.html";
+    }
+    function goToLogin(){
+      window.location.href="login.html";
+    }
+    function goToRegister(){
+      window.location.href="register.html";
+    }
+    function logout(){
+      localStorage.removeItem('token');
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</body>
+</html>

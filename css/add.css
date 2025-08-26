@@ -1,0 +1,142 @@
+body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      overflow: hidden;
+      height: 100vh;
+      background: linear-gradient(to right,#9E4B8A,#4C2A59,#1E1E2F);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+
+    .logout-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      background: linear-gradient(90deg, #9e0880 0%, #000000 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s, transform 0.2s;
+      z-index: 2;
+    }
+
+    .logout-btn:hover {
+      background: linear-gradient(90deg, #000000 0%, #9e0880 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+
+    .bubbles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: rise 20s infinite ease-in;
+    }
+    .bubble:nth-child(2) { left: 25%; width: 20px; height: 20px; animation-duration: 15s; }
+    .bubble:nth-child(3) { left: 50%; animation-duration: 22s; }
+    .bubble:nth-child(4) { left: 70%; width: 25px; height: 25px; animation-duration: 18s; }
+    .bubble:nth-child(5) { left: 90%; width: 15px; height: 15px; animation-duration: 12s; }
+
+    @keyframes rise {
+      0% { transform: translateY(0) scale(1); opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+    }
+
+    .container {
+      z-index: 1;
+      backdrop-filter: blur(6px);
+      padding: 30px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      animation: fadeInUp 1s ease;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+      font-weight: 700;
+      background: linear-gradient(90deg,#9E4B8A,#4C2A59,#1E1E2F,#4C2A59,#9E4B8A);
+      background-size:200% 100%;
+      -webkit-background-clip: text;
+      background-clip:text;
+      color: transparent;
+      animation:moveGradient 3s linear infinite;
+    }
+    @keyframes moveGradient {
+      0%{background-position: 0% 0%;}
+      100%{background-position: 100% 0%;}
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #070000;
+      text-align: left;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+      background: rgba(255,255,255,0.15);
+      color: #222;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, select:focus,
+    input:hover, select:hover {
+      border-color: #070000;
+      background: rgba(0, 0, 0);
+      color: #ffffff;
+    }
+
+    .btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(90deg, #9e0880 0%, #000000 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s, transform 0.2s;
+    
+    }
+
+    .btn:hover {
+      background: linear-gradient(90deg, #9e0880 0%, #000000 100%);
+      transform: translateY(-2px) scale(1.03);
+    }

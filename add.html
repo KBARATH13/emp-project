@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="css/add.css">
+  <script>
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = 'login.html';
+    }
+  </script>
+  <meta charset="UTF-8">
+  <title>Employee Entry</title>
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+  <div class="bubbles">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+
+  <button class="logout-btn" onclick="logout()">Logout</button>
+
+  <div class="container">
+    <h2>Add Employee</h2>
+    <form id="employeeForm" onsubmit="return addEmployee()">
+      <label>Name</label>
+      <input type="text" id="name" required />
+
+      <label>Email</label>
+      <input type="email" id="email" required />
+
+      <label>Age</label>
+      <input type="number" id="age" required min="18" />
+
+      <label>Gender</label>
+      <select id="gender" required>
+        <option value="">Select</option>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+      </select>
+
+      <label>Role</label>
+      <select id="role" required>
+        <option value="">Select</option>
+        <option>Designer</option>
+        <option>Developer</option>
+        <option>Technician</option>
+        <option>Testing</option>
+        <option>Team Leader</option>
+        <option>Project Manager</option>
+      </select>
+
+      <button type="submit" class="btn"><b>SUBMIT</b></button>
+      <button type="button" class="btn" onclick="goToHome()">Back to Home</button>
+    </form>
+  </div>
+
+<script>
+   function goToHome(){
+      window.location.href="index.html";
+    }
+    function logout(){
+      localStorage.removeItem('token');
+      window.location.href = 'login.html';
+    }
+    const API_URL = "http://localhost:8080";
+
+    function addEmployee() {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const age = parseInt(document.getElementById('age').value.trim());
+      const gender = document.getElementById('gender').value;
+      const role = document.getElementById('role').value.trim();
+
+      // Input validation
+      document.getElementById('name').addEventListener('input', function(e) {
+      this.value = this.value.replace(/[0-9]/g, '');
+    });
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (name.length < 3) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid Name',
+          text: 'Name must be at least 3 characters long.'
+        });
+        return false;
+      }
+        if (!emailPattern.test(email)) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid Email',
+            text: 'Please enter a valid email address.'
+        });
+        return false;
+       }
+      if (age < 18) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid Age',
+          text: 'Age must be greater than 18 or equal to 18.'
+        });
+        return false;
+      }
+
+      fetch(`${API_URL}/employees`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') },
+        body: JSON.stringify({ name, email, age, gender, role })
+      })
+      .then(response => {
+        console.log('Response:', response); // Debug the response
+        if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+        return response.json();
+      })
+      .then(data => {
+        console.log('Data:', data); // Debug the returned data
+        Swal.fire({
+          icon: 'success',
+          title: 'Employee Added',
+          text: 'Employee has been added successfully!'
+        });
+        document.getElementById('employeeForm').reset();
+      })
+      .catch(error => {
+        console.error('Error:', error); // Debug the error
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: `Failed to add employee: ${error.message}`
+        });
+      });
+
+      return false;
+    }
+</script>
+</body>
+</html>

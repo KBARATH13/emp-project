@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel=stylesheet href="css\forms.css">
+  <meta charset="UTF-8">
+  <title>User Registration</title>
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body>
+
+  <div class="bubbles">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+
+  <div class="container">
+    <h2>Register</h2>
+    <form id="registerForm" onsubmit="return registerUser()">
+      <label>Username</label>
+      <input type="text" id="username" required />
+
+      <label>Company Name</label>
+      <input type="text" id="companyName" required />
+
+      <label>Email</label>
+      <input type="email" id="email" required />
+
+      <label>Password</label>
+      <input type="password" id="password" required />
+
+      <button type="submit" class="btn"><b>REGISTER</b></button>
+      <button type="button" class="btn" onclick="goToLogin()">Login</button>
+    </form>
+  </div>
+
+<script>
+    function goToLogin(){
+      window.location.href="login.html";
+    } 
+    const API_URL = "http://localhost:8080";
+
+    function registerUser() {
+      const username = document.getElementById('username').value.trim();
+      const companyName = document.getElementById('companyName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (username.length < 3) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid Username',
+          text: 'Username must be at least 3 characters long.'
+        });
+        return false;
+      }
+      if (!emailPattern.test(email)) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid Email',
+            text: 'Please enter a valid email address.'
+        });
+        return false;
+       }
+      if (password.length < 6) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid Password',
+          text: 'Password must be at least 6 characters long.'
+        });
+        return false;
+      }
+
+      fetch(`${API_URL}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, companyName, email, password })
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+        return response.json();
+      })
+      .then(data => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Registration Successful',
+          text: 'You have been registered successfully! Please login to continue.'
+        }).then(() => {
+            window.location.href = "login.html";
+        });
+      })
+      .catch(error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: `Failed to register: ${error.message}`
+        });
+      });
+
+      return false;
+    }
+</script>
+</body>
+</html>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel=stylesheet href="css\forms.css">
+  <meta charset="UTF-8">
+  <title>User Login</title>
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+  <div class="bubbles">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+
+  <div class="container">
+    <h2>Login</h2>
+    <form id="loginForm" onsubmit="return loginUser()">
+      <label>Email</label>
+      <input type="email" id="email" required />
+
+      <label>Password</label>
+      <input type="password" id="password" required />
+
+      <button type="submit" class="btn"><b>LOGIN</b></button>
+      <button type="button" class="btn" onclick="goToRegister()">Register</button>
+    </form>
+  </div>
+
+<script>
+    function goToRegister(){
+      window.location.href="register.html";
+    } 
+    const API_URL = "http://localhost:8080";
+
+    function loginUser() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailPattern.test(email)) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid Email',
+            text: 'Please enter a valid email address.'
+        });
+        return false;
+       }
+
+      fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+        return response.json();
+      })
+      .then(data => {
+        localStorage.setItem('token', data.token);
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Successful',
+          text: 'You have been logged in successfully!'
+        }).then(() => {
+            window.location.href = "index.html";
+        });
+      })
+      .catch(error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: `Failed to login: ${error.message}`
+        });
+      });
+
+      return false;
+    }
+</script>
+</body>
+</html>
