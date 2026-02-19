@@ -66,7 +66,10 @@
    function goToHome(){
       window.location.href="index.html";
     }
-
+    function logout(){
+      localStorage.removeItem('token');
+      window.location.href = 'index.html';
+    }
 
   const API_URL = "http://localhost:8080/employees";
   let allEmployees = [];
@@ -112,7 +115,6 @@
         return response.json();
       })
       .then(employees => {
-        console.log('Fetched employees:', employees); // Debug log
         allEmployees = employees;
         renderEmployees(employees);
       })
